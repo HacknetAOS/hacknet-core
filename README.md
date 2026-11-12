@@ -1,7 +1,6 @@
 # hacknet-core
 
 [![CI](https://github.com/HacknetAOS/hacknet-core/actions/workflows/ci.yml/badge.svg)](https://github.com/HacknetAOS/hacknet-core/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Core system daemon, IPC protocol, CLI controller, and theme compiler for HacknetAOS.
 
@@ -32,7 +31,3 @@ python3 tools/hacknet-layout.py --check
 ## IPC Socket
 
 `hacknetd` listens on `$XDG_RUNTIME_DIR/hacknet.sock` (fallback `/tmp/hacknet-$UID/hacknet.sock`) using newline-delimited JSON requests and events defined in `hacknet-proto`.
-
-## License
-
-MIT. See [LICENSE](LICENSE).
