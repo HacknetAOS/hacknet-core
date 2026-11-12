@@ -1,0 +1,40 @@
+id = "ente"
+name = "Ente"
+description = "Teal variant of the Hacknet console."
+
+[palette]
+bg = "#06080a"
+panel = "#0a0f12"
+panel_alt = "#0e1519"
+fg = "#cfdadf"
+dim = "#728a93"
+faint = "#1e2c33"
+accent = "#4fb8c8"
+accent_dim = "#1d3f47"
+accent_glow = "#9fe6ee"
+alert = "#e0473a"
+warn = "#e0b040"
+ok = "#2fbf71"
+grid = "#16262b"
+selection = "#17383f"
+terminal_fg = "#9fe6ee"
+
+[typography]
+mono = "JetBrainsMono Nerd Font"
+ui = "Noto Sans"
+mono_size = 11
+ui_size = 11
+title_size = 12
+scale = 1.0
+
+[effects]
+scanlines = 0.06
+glow = 0.0
+grid = 0.10
+border = 1
+panel_opacity = 1.0
+corner_bracket = 0
+
+[terminal]
+cursor = "block"
+blink = true

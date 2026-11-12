@@ -1,0 +1,47 @@
+# HacknetOS layout tokens — the single source of truth for the fixed grid.
+# All values are logical pixels at the baseline resolution. The compositor
+# handles physical scaling; this file only describes the logical grid.
+
+version = 1
+
+[display]
+baseline_width = 1920
+baseline_height = 1080
+min_width = 1280
+min_height = 720
+
+[grid]
+# Hairline separation between regions.
+gap = 2
+# Values traced from Hacknet's 1920x1080 layout: 13.3% gutter, 38.1% terminal,
+# 22px top strip, 14px caption bars, 184px netmap.
+topbar = 22
+netmap = 184
+sidebar = 255
+terminal = 732
+caption = 14
+
+[dock]
+# Live RAM meter block at the top of the sidebar.
+ram = 92
+# Smallest allowed height of a dock slot when dragging splitters.
+min_slot = 96
+splitter = 6
+
+[visualizer]
+size = 240
+padding = 12
+
+[stage]
+border = 1
+bracket = 0
+# Title strip inside DISPLAY that names the active window.
+title = 18
+
+[breakpoints.compact]
+# Applied when the logical screen width is <= max_width.
+max_width = 1500
+sidebar = 170
+terminal = 488
+netmap = 136
+visualizer = 140

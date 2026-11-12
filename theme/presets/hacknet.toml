@@ -1,0 +1,40 @@
+id = "hacknet"
+name = "HACKNET"
+description = "Classic green-on-black hacker aesthetic."
+
+[palette]
+bg = "#0a0a0a"
+panel = "#0d0d0d"
+panel_alt = "#111111"
+fg = "#00ff00"
+dim = "#008800"
+faint = "#002200"
+accent = "#00ff00"
+accent_dim = "#004400"
+accent_glow = "#00aa00"
+alert = "#ff0000"
+warn = "#ffff00"
+ok = "#00ff00"
+grid = "#002200"
+selection = "#003300"
+terminal_fg = "#00ff00"
+
+[typography]
+mono = "JetBrainsMono Nerd Font"
+ui = "Noto Sans"
+mono_size = 11
+ui_size = 11
+title_size = 12
+scale = 1.0
+
+[effects]
+scanlines = 0.08
+glow = 0.0
+grid = 0.10
+border = 1
+panel_opacity = 1.0
+corner_bracket = 0
+
+[terminal]
+cursor = "block"
+blink = true

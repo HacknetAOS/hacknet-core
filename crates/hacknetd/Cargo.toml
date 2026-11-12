@@ -1,0 +1,15 @@
+[package]
+name = "hacknetd"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "hacknetd"
+path = "src/main.rs"
+
+[dependencies]
+hacknet-proto = { path = "../hacknet-proto" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+toml = { workspace = true }

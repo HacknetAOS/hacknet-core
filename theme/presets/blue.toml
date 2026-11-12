@@ -1,0 +1,40 @@
+id = "blue"
+name = "Blue"
+description = "Hacknet default: near-black violet, lavender console."
+
+[palette]
+bg = "#07070b"
+panel = "#0b0b11"
+panel_alt = "#111119"
+fg = "#d3d6dd"
+dim = "#79808f"
+faint = "#232a3a"
+accent = "#9d7ae0"
+accent_dim = "#2e2344"
+accent_glow = "#c0a8ff"
+alert = "#e0473a"
+warn = "#e0b040"
+ok = "#2fbf71"
+grid = "#1a2233"
+selection = "#241a3a"
+terminal_fg = "#b9a6ff"
+
+[typography]
+mono = "JetBrainsMono Nerd Font"
+ui = "Noto Sans"
+mono_size = 11
+ui_size = 11
+title_size = 12
+scale = 1.0
+
+[effects]
+scanlines = 0.06
+glow = 0.0
+grid = 0.10
+border = 1
+panel_opacity = 1.0
+corner_bracket = 0
+
+[terminal]
+cursor = "block"
+blink = true

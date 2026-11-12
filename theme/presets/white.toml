@@ -1,0 +1,40 @@
+id = "white"
+name = "White"
+description = "Monochrome console variant."
+
+[palette]
+bg = "#060606"
+panel = "#0b0b0b"
+panel_alt = "#111111"
+fg = "#e6e6e6"
+dim = "#8a8a8a"
+faint = "#262626"
+accent = "#cfcfcf"
+accent_dim = "#3a3a3a"
+accent_glow = "#ffffff"
+alert = "#e0473a"
+warn = "#e0b040"
+ok = "#2fbf71"
+grid = "#1f1f1f"
+selection = "#2e2e2e"
+terminal_fg = "#f2f2f2"
+
+[typography]
+mono = "JetBrainsMono Nerd Font"
+ui = "Noto Sans"
+mono_size = 11
+ui_size = 11
+title_size = 12
+scale = 1.0
+
+[effects]
+scanlines = 0.06
+glow = 0.0
+grid = 0.10
+border = 1
+panel_opacity = 1.0
+corner_bracket = 0
+
+[terminal]
+cursor = "block"
+blink = true

@@ -1,0 +1,40 @@
+id = "hellhound"
+name = "Hellhound"
+description = "Red console variant."
+
+[palette]
+bg = "#0a0606"
+panel = "#120a0a"
+panel_alt = "#180e0e"
+fg = "#ded3d3"
+dim = "#8f7676"
+faint = "#33201f"
+accent = "#d05548"
+accent_dim = "#4a1f1a"
+accent_glow = "#ff9a8c"
+alert = "#ff3b2f"
+warn = "#e0b040"
+ok = "#2fbf71"
+grid = "#2a1716"
+selection = "#41191a"
+terminal_fg = "#ff9a8c"
+
+[typography]
+mono = "JetBrainsMono Nerd Font"
+ui = "Noto Sans"
+mono_size = 11
+ui_size = 11
+title_size = 12
+scale = 1.0
+
+[effects]
+scanlines = 0.06
+glow = 0.0
+grid = 0.10
+border = 1
+panel_opacity = 1.0
+corner_bracket = 0
+
+[terminal]
+cursor = "block"
+blink = true
