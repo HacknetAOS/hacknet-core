@@ -100,3 +100,23 @@ jobs:
         with:
           files: hacknet-core-linux-x86_64.tar.gz
           generate_release_notes: true
+
+  notify-packages:
+    name: Trigger Package Repo Rebuild
+    needs: [build]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch HacknetAOS/packages
+        env:
+          DISPATCH_TOKEN: ${{ secrets.REPO_PUSH_TOKEN }}
+        run: |
+          if [ -z "${DISPATCH_TOKEN}" ]; then
+            echo "REPO_PUSH_TOKEN not configured; skipping cross-repo dispatch."
+            exit 0
+          fi
+          curl -fsS -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${DISPATCH_TOKEN}" \
+            https://api.github.com/repos/HacknetAOS/packages/dispatches \
+            -d "{\"event_type\":\"source-updated\",\"client_payload\":{\"repo\":\"${GITHUB_REPOSITORY}\",\"sha\":\"${GITHUB_SHA}\"}}"
