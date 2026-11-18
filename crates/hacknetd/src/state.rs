@@ -1183,43 +1183,87 @@ impl Engine {
     pub fn media(&self, action: &str) -> Result<(), String> {
         let arg = match action {
             "play_pause" | "toggle" => "play-pause",
+            "play" => "play",
+            "pause" => "pause",
             "next" => "next",
             "previous" | "prev" => "previous",
             "stop" => "stop",
             other => return Err(format!("unknown media action {other}")),
         };
-        std::process::Command::new("playerctl")
-            .arg(arg)
-            .output()
-            .map_err(|e| format!("playerctl: {e}"))?;
+        let mut cmd = std::process::Command::new("playerctl");
+        cmd.arg(arg);
+        if std::env::var_os("DBUS_SESSION_BUS_ADDRESS").is_none() {
+            if let Some(rt) = std::env::var_os("XDG_RUNTIME_DIR") {
+                cmd.env(
+                    "DBUS_SESSION_BUS_ADDRESS",
+                    format!("unix:path={}/bus", rt.to_string_lossy()),
+                );
+            }
+        }
+        let out = cmd.output().map_err(|e| format!("playerctl: {e}"))?;
+        if !out.status.success() {
+            let err = String::from_utf8_lossy(&out.stderr).trim().to_string();
+            if !err.is_empty() {
+                return Err(format!("playerctl {arg}: {err}"));
+            }
+        }
         Ok(())
     }
 
-    pub fn set_volume(&self, value: f64) -> Result<(), String> {
+    pub fn set_volume(&mut self, value: f64) -> Result<(), String> {
         let v = (value.clamp(0.0, 1.5) * 100.0).round() as i64;
-        let _ = std::process::Command::new("wpctl")
+        let ok = std::process::Command::new("wpctl")
             .args(["set-volume", "@DEFAULT_AUDIO_SINK@", &format!("{v}%")])
-            .output();
+            .output()
+            .map(|o| o.status.success())
+            .unwrap_or(false);
+        if !ok {
+            let _ = std::process::Command::new("pactl")
+                .args(["set-sink-volume", "@DEFAULT_SINK@", &format!("{v}%")])
+                .output();
+        }
+        self.revision += 1;
         Ok(())
     }
 
-    pub fn adjust_volume(&self, delta: f64) -> Result<(), String> {
+    pub fn adjust_volume(&mut self, delta: f64) -> Result<(), String> {
         let pct = (delta.abs() * 100.0).round() as i64;
         let arg = if delta < 0.0 {
             format!("{pct}%-")
         } else {
             format!("{pct}%+")
         };
-        let _ = std::process::Command::new("wpctl")
+        let ok = std::process::Command::new("wpctl")
             .args(["set-volume", "-l", "1.5", "@DEFAULT_AUDIO_SINK@", &arg])
-            .output();
+            .output()
+            .map(|o| o.status.success())
+            .unwrap_or(false);
+        if !ok {
+            let parg = if delta < 0.0 {
+                format!("-{pct}%")
+            } else {
+                format!("+{pct}%")
+            };
+            let _ = std::process::Command::new("pactl")
+                .args(["set-sink-volume", "@DEFAULT_SINK@", &parg])
+                .output();
+        }
+        self.revision += 1;
         Ok(())
     }
 
-    pub fn toggle_mute(&self) -> Result<(), String> {
-        let _ = std::process::Command::new("wpctl")
+    pub fn toggle_mute(&mut self) -> Result<(), String> {
+        let ok = std::process::Command::new("wpctl")
             .args(["set-mute", "@DEFAULT_AUDIO_SINK@", "toggle"])
-            .output();
+            .output()
+            .map(|o| o.status.success())
+            .unwrap_or(false);
+        if !ok {
+            let _ = std::process::Command::new("pactl")
+                .args(["set-sink-mute", "@DEFAULT_SINK@", "toggle"])
+                .output();
+        }
+        self.revision += 1;
         Ok(())
     }
 }
