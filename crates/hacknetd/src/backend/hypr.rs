@@ -82,6 +82,12 @@ impl Backend for Hyprland {
                     .unwrap_or(false),
                 floating: c.get("floating").and_then(Value::as_bool).unwrap_or(false),
                 sticky: c.get("pinned").and_then(Value::as_bool).unwrap_or(false),
+                fullscreen: c
+                    .get("fullscreen")
+                    .and_then(Value::as_i64)
+                    .map(|v| v > 0)
+                    .or_else(|| c.get("fullscreen").and_then(Value::as_bool))
+                    .unwrap_or(false),
                 rect: Rect::new(xy(at, 0), xy(at, 1), xy(size, 0), xy(size, 1)),
             });
         }
@@ -150,13 +156,9 @@ impl Backend for Hyprland {
         cmd("hyprctl", &["reload".into()]).map(|_| ())
     }
 
-    fn native_fullscreen(&self, id: &str, on: bool) -> Result<(), String> {
-        self.dispatch(&[
-            "fullscreen",
-            if on { "1" } else { "0" },
-            &format!("address:0x{}", id.trim_start_matches("0x")),
-        ])
-        .map(|_| ())
+    fn native_fullscreen(&self, id: &str, _on: bool) -> Result<(), String> {
+        self.dispatch_window("focuswindow", id)?;
+        self.dispatch(&["fullscreen", "0"]).map(|_| ())
     }
 
     fn output_size(&self) -> Option<(i32, i32)> {

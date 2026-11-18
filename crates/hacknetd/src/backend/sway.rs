@@ -75,6 +75,11 @@ fn walk(node: &Value, workspace: i32, floating: bool, out: &mut Vec<RawWindow>) 
                     .unwrap_or(false),
                 floating,
                 sticky: node.get("sticky").and_then(Value::as_bool).unwrap_or(false),
+                fullscreen: node
+                    .get("fullscreen_mode")
+                    .and_then(Value::as_i64)
+                    .unwrap_or(0)
+                    > 0,
                 rect: Rect::new(g("x"), g("y"), g("width"), g("height")),
             });
         }

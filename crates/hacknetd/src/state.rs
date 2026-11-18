@@ -503,14 +503,23 @@ impl Engine {
                     }
                 }
                 Zone::Stage => {
-                    // Place inside the viewport below the caption and window
-                    // title strip, never over the shell chrome.
-                    eff_rect = self.compiled.rects.stage_app;
-                    actions.push(Action::Place {
-                        w: r.clone(),
-                        rect: eff_rect,
-                        sticky: false,
-                    });
+                    if r.fullscreen {
+                        self.fullscreen_window = Some(r.id.clone());
+                        self.placed.remove(&r.id);
+                    } else {
+                        if self.fullscreen_window.as_deref() == Some(&r.id) {
+                            self.fullscreen_window = None;
+                            self.placed.remove(&r.id);
+                        }
+                        // Place inside the viewport below the caption and window
+                        // title strip, never over the shell chrome.
+                        eff_rect = self.compiled.rects.stage_app;
+                        actions.push(Action::Place {
+                            w: r.clone(),
+                            rect: eff_rect,
+                            sticky: false,
+                        });
+                    }
                     if r.workspace != deck {
                         actions.push(Action::ToWorkspace {
                             id: r.id.clone(),
@@ -934,11 +943,13 @@ impl Engine {
     pub fn set_fullscreen(&mut self, id: &str, enable: bool) -> Result<(), String> {
         if enable {
             self.fullscreen_window = Some(id.to_string());
+            self.placed.remove(id);
             self.backend.set_fullscreen(id, true)?;
         } else {
             if self.fullscreen_window.as_deref() == Some(id) {
                 self.fullscreen_window = None;
             }
+            self.placed.remove(id);
             self.backend.set_fullscreen(id, false)?;
         }
         self.revision += 1;
