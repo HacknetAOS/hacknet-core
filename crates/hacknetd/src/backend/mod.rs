@@ -13,6 +13,7 @@ pub struct RawWindow {
     pub active: bool,
     pub floating: bool,
     pub sticky: bool,
+    pub fullscreen: bool,
     pub rect: Rect,
 }
 
